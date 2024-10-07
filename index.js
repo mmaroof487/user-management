@@ -22,14 +22,14 @@ app.post("/create", async (req, res) => {
   email: req.body.email,
   url: req.body.url,
  });
- res.send(createdUser);
+ res.redirect("/");
+ console.log("USER CREATED");
 });
 
 app.get("/delete/:email", async (req, res) => {
- res.send(req.params.email);
  let deleted = await userModel.findOneAndDelete({ email: req.params.email });
- console.log(deleted);
- res.redirect("/");
+ console.log("USER DELETED");
+ res.redirect("/read");
 });
 app.get("/edit/:email", async (req, res) => {
  let user = await userModel.findOne({ email: req.params.email });
@@ -37,7 +37,7 @@ app.get("/edit/:email", async (req, res) => {
 });
 app.post("/update/:email", async (req, res) => {
  let user = await userModel.findOneAndUpdate({ email: req.params.email }, { name: req.body.name, email: req.body.email, url: req.body.url });
- res.redirect("/");
+ res.redirect("/read");
 });
 
 app.listen(3000);
